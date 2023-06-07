@@ -1,0 +1,42 @@
+syntax = "proto3";
+package sb.messenger;
+
+option go_package = "proto.gen";
+
+service Messenger {
+  rpc Send(MsgInTransit) returns (SendResponse);
+  rpc Get(MsgRequest) returns (Msg);
+  rpc Sent(SentMsgsRequest) returns (MultiMsgResponse);
+  rpc Received(ReceivedMsgsRequest) returns (MultiMsgResponse);
+}
+
+message MultiMsgResponse { repeated Msg msgs = 1; }
+
+message Msg {
+  string id = 1;
+  string timestamp = 2;
+  string sender = 3;
+  string recipient = 4;
+  string body = 5;
+}
+
+message MsgInTransit {
+  string sender = 1;
+  string recipient = 2;
+  string body = 3;
+}
+
+message SendResponse {
+  string message_id = 1;
+  string sent_at = 2;
+}
+
+message MsgRequest { string message_id = 1; }
+
+message MsgResponse { Msg msg = 1; }
+
+message AllMsgsRequest { string client_id = 1; }
+
+message SentMsgsRequest { string sender = 1; }
+
+message ReceivedMsgsRequest { string recipient = 1; }

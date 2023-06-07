@@ -1,9 +1,22 @@
 package main
 
-import "github.com/phasewalk1/lexer"
+import (
+	"fmt"
+	"log"
+	pb "proto/proto.gen"
+	gimpl "server"
+)
 
 func main() {
-	tree := lexer.MakeTree()
-	var tok rune = 'a'
-	tree.Insert(tok)
+	m := pb.MsgInTransit {
+		Sender: "me",
+		Recipient: "you",
+		Body: "hello",
+	}	
+
+	defer gimpl.Serve()
+
+	fmt.Println(&m)
+	log.Default()
+	log.Println("gRPC server started on port 50051")
 }
